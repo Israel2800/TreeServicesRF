@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="eight">8dp</dimen>
+    <dimen name="cardview_height">180dp</dimen>
+    <dimen name="zero">0dp</dimen>
+    <dimen name="title_size">22sp</dimen>
+    <dimen name="txt_size">18sp</dimen>
+    <dimen name="progress_bar_size">50dp</dimen>
+    <dimen name="twenty">20dp</dimen>
+    <dimen name="general_padding_twelve">12dp</dimen>
+    <dimen name="title_size_clicked">25sp</dimen>
+    <dimen name="image_radius">10dp</dimen>
+    <dimen name="bg_radius">4dp</dimen>
+</resources>

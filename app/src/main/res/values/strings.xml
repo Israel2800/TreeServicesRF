@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">TreeServices RF</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="price">Price: $%1$s</string>
+    <string name="duration">Duration: %1$s</string>
+    <string name="details">Details:\n%1$s</string>
+    <string name="additional">Additional:\n%1$s</string>
+    <string name="description">Description:\n%1$s</string>
+    <string name="id_received">Id recibido %1$s</string>
+    <string name="error_conexion">Error: No hay conexión disponible</string>
+    <string name="title">Title</string>
+    <string name="card_description">Description</string>
+    <string name="card_price">Price</string>
+    <string name="card_duration">Duration</string>
+    <string name="long_description">Long Description</string>
+    <string name="additional_detail_one">Additional Detail 1</string>
+    <string name="additional_detail_two">Additional Detail 2</string>
+    <string name="rotation">rotation</string>
+    <string name="horizontal_animation">scaleX</string>
+    <string name="vertical_animation">scaleY</string>
+</resources>
