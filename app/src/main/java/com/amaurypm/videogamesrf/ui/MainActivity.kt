@@ -1,6 +1,7 @@
 package com.amaurypm.videogamesrf.ui
 
 import android.animation.ObjectAnimator
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -26,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        // Pasamos la orientación en portrait
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         installSplashScreen().apply {
             setKeepOnScreenCondition {

@@ -84,6 +84,15 @@
                         android:textSize="@dimen/txt_size"
                         tools:text="@string/additional_detail_two" />
 
+                    <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                        android:id="@+id/ytPlayerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/video_height"
+                        android:layout_marginTop="@dimen/general_padding_twelve"
+                        android:layout_marginBottom="@dimen/general_padding_twelve"
+                        android:layout_gravity="center"
+                        android:background="@android:color/darker_gray" />
+
                 </LinearLayout>
             </ScrollView>
 

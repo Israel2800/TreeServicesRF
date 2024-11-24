@@ -17,5 +17,9 @@ class TreeServiceDetailDto(
     var additionalDetail1: String? = null,
 
     @SerializedName("additional_detail_2")
-    var additionalDetail2: String? = null
+    var additionalDetail2: String? = null,
+
+    @SerializedName("url_id")
+    var url_id: String? = null
+
 )
