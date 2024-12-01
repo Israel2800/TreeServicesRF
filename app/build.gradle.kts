@@ -1,11 +1,14 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
     namespace = "com.amaurypm.videogamesrf"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.amaurypm.videogamesrf"
@@ -15,6 +18,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val localProperties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if(localPropertiesFile.exists()){
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+
+        val mapsApiKey = localProperties.getProperty("MAPS_API_KEY")
+
+        manifestPlaceholders["MAPS_API_KEY"] = mapsApiKey
+
     }
 
     buildTypes {
@@ -68,6 +82,10 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.core)
+    implementation(libs.firebase.auth)
+
+    implementation(libs.play.services.maps)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

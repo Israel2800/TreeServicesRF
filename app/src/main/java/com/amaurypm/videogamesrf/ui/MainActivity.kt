@@ -1,7 +1,10 @@
 package com.amaurypm.videogamesrf.ui
 
 import android.animation.ObjectAnimator
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.ActivityInfo
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -13,11 +16,18 @@ import com.amaurypm.videogamesrf.R
 
 import com.amaurypm.videogamesrf.databinding.ActivityMainBinding
 import com.amaurypm.videogamesrf.ui.fragments.GamesListFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var networkReceiver: NetworkReceiver
+
+    private lateinit var firebaseAuth: FirebaseAuth
+    private var user: FirebaseUser? = null
+    private var userId: String? = null
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -27,10 +37,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Pasamos la orientación en portrait
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
+        firebaseAuth = FirebaseAuth.getInstance()
+
+        user = firebaseAuth.currentUser
+        userId = user?.uid
+
+        binding.tvUsuario.text = user?.email
+
+        // Colocamos un SplashScreen
         installSplashScreen().apply {
             setKeepOnScreenCondition {
                 !viewModel.isReady.value
@@ -61,10 +81,20 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        // Revisamos si el correo no está verificado
+        if(user?.isEmailVerified != true){
+            // No se ha verificado su correo
+            binding.tvCorreoNoVerificado.visibility = View.VISIBLE
+            binding.btnReenviarVerificacion.visibility = View.VISIBLE
 
-        setContentView(binding.root)
+            binding.btnReenviarVerificacion.setOnClickListener {
+                user?.sendEmailVerification()?.addOnSuccessListener {
+                    message("El correo de verificación ha sido reenviado")
+                }?.addOnFailureListener {
+                    message("No se pudo enviar el correo")
+                }
+            }
+        }
 
         //Mostramos el fragment inicial GamesListFragment
         if(savedInstanceState == null){
@@ -73,38 +103,34 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        binding.btnCerrarSesion.setOnClickListener {
+            firebaseAuth.signOut()
+            startActivity(Intent(this, LoginActivity::class.java))
+            message("Sesión cerrada exitosamente")
+            finish()
+        }
 
-        /*//Obteniendo la instancia de retrofit
-        retrofit = RetrofitHelper().getRetrofit()
-
-        //Obteniendo el repositorio
-        repository = GameRepository(retrofit)*/
-
+        networkReceiver = NetworkReceiver {
+            // Llamar al ViewModel para recargar la data
+            reloadData()
+        }
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(networkReceiver, intentFilter)
+    }
 
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(networkReceiver)
+    }
 
-    /*fun click(view: View) {
+    private fun reloadData() {
+        // Llamar al método del MainViewModel para refrescar la data
+        viewModel.refreshData()
+    }
 
-        val call: Call<MutableList<GameDto>> = repository.getGames("cm/games/games_list.php")
-
-        call.enqueue(object: Callback<MutableList<GameDto>>{
-            override fun onResponse(
-                call: Call<MutableList<GameDto>>,
-                response: Response<MutableList<GameDto>>
-            ) {
-                Log.d(Constants.LOGTAG, "Respuesta del servidor: ${response.body()}")
-            }
-
-            override fun onFailure(p0: Call<MutableList<GameDto>>, p1: Throwable) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Error: No hay conexión disponible",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-
-        })
-    }*/
 }

@@ -20,6 +20,12 @@ class TreeServiceDetailDto(
     var additionalDetail2: String? = null,
 
     @SerializedName("url_id")
-    var url_id: String? = null
+    var url_id: String? = null,
+
+    @SerializedName("latitude")
+    var latitude: Double? = null,
+
+    @SerializedName("longitude")
+    var longitude: Double? = null
 
 )
