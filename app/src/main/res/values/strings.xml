@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TreeServices RF</string>
+    <string name="app_name">ProHiring</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="price">Price: $%1$s</string>
@@ -19,4 +19,58 @@
     <string name="rotation">rotation</string>
     <string name="horizontal_animation">scaleX</string>
     <string name="vertical_animation">scaleY</string>
+
+    <string name="permission_title">Permission Required</string>
+    <string name="permission_message">Location permission is needed to display the user\'s position on the map.</string>
+    <string name="understood_button">Understood</string>
+    <string name="exit_button">Exit</string>
+    <string name="permission_denied_message">Location permission was permanently denied.</string>
+    <string name="data_load_error">Error al cargar los datos. Por favor intenta de nuevo.</string>
+    <string name="no_coordinates_found">No se encontraron coordenadas para esta ubicación.</string>
+    <string name="user_created_success">Usuario creado exitosamente</string>
+    <string name="email_verification_sent">El correo de verificación ha sido enviado</string>
+    <string name="email_verification_failed">No se pudo enviar el correo de verificación</string>
+
+    <string name="reset_password_title">Restablecer contraseña</string>
+    <string name="reset_password_message">Ingrese su correo electrónico para recibir el enlace de restablecimiento</string>
+    <string name="send_button">Enviar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="reset_email_sent">El correo para restablecer la contraseña ha sido enviado</string>
+    <string name="reset_email_failed">El enlace no se ha podido enviar</string>
+    <string name="invalid_email">Favor de ingresar una dirección de correo válida</string>
+
+    <string name="email_required">Se requiere el correo</string>
+    <string name="invalid_email_format">El correo no tiene un formato válido</string>
+    <string name="password_required">Se requiere una contraseña</string>
+    <string name="password_length">La contraseña debe tener al menos 6 caracteres</string>
+
+    <string name="invalid_password">La contraseña no es válida</string>
+    <string name="account_exists_with_different_credentials">Error: Una cuenta ya existe con el mismo correo, pero con diferentes datos de ingreso</string>
+    <string name="email_already_in_use">Error: el correo electrónico ya está en uso con otra cuenta.</string>
+    <string name="session_expired">Error: La sesión ha expirado. Favor de ingresar nuevamente.</string>
+    <string name="user_not_found">Error: No existe el usuario con la información proporcionada.</string>
+    <string name="weak_password">La contraseña porporcionada es inválida</string>
+    <string name="network_unavailable">Red no disponible o se interrumpió la conexión</string>
+    <string name="authentication_failed">Error. No se pudo autenticar exitosamente.</string>
+    <string name="authentication_success">Autenticación exitosa</string>
+    <string name="verification_email_sent">El correo de verificación ha sido reenviado</string>
+    <string name="verification_email_failed">No se pudo enviar el correo</string>
+    <string name="session_closed">Sesión cerrada exitosamente</string>
+    <string name="connection_restored">Conexión restablecida</string>
+    <string name="no_connection">Sin conexión</string>
+
+    <string name="hint_email">Correo electrónico</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="btn_register">Registrarse</string>
+    <string name="forgot_password">¿Olvidó su contraseña? Restablecer aquí</string>
+    <string name="copyright">© DADM12</string>
+
+    <string name="email_user">Correo usuario</string>
+    <string name="email_not_verified">¡Correo no verificado!</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="location">Location</string>
+    <string name="forward_verification_email">Reenviar correo de verificación</string>
+    <string name="ourWork">See our work!</string>
+
 </resources>

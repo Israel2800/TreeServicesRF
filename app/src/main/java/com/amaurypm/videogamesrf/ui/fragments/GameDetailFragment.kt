@@ -62,19 +62,20 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
         } else {
             if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Permission Required")
-                    .setMessage("Location permission is needed to display the user's position on the map.")
-                    .setPositiveButton("Understood") { _, _ -> updateOrRequestPermissions() }
-                    .setNegativeButton("Exit") { dialog, _ -> dialog.dismiss() }
+                    .setTitle(getString(R.string.permission_title))
+                    .setMessage(getString(R.string.permission_message))
+                    .setPositiveButton(getString(R.string.understood_button)) { _, _ -> updateOrRequestPermissions() }
+                    .setNegativeButton(getString(R.string.exit_button)) { dialog, _ -> dialog.dismiss() }
                     .create()
                     .show()
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Location permission was permanently denied.",
+                    getString(R.string.permission_denied_message),
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
         }
     }
 
@@ -143,7 +144,7 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "Error al cargar los datos. Por favor intenta de nuevo.",
+                            getString(R.string.data_load_error),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -190,14 +191,14 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
             val coordinate = LatLng(latitude, longitude)
             val marker = MarkerOptions()
                 .position(coordinate)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.school))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.house))
 
             map.addMarker(marker)
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 18f), 4000, null)
         } else {
             Toast.makeText(
                 requireContext(),
-                "No se encontraron coordenadas para esta ubicación.",
+                getString(R.string.no_coordinates_found),
                 Toast.LENGTH_SHORT
             ).show()
         }

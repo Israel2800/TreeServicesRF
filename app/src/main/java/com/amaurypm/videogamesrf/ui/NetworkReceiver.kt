@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
+import com.amaurypm.videogamesrf.R
 
 class NetworkReceiver(private val onNetworkAvailable: () -> Unit) : BroadcastReceiver() {
 
@@ -21,13 +22,13 @@ class NetworkReceiver(private val onNetworkAvailable: () -> Unit) : BroadcastRec
 
         if (isConnected) {
             if (wasDisconnected) {
-                Toast.makeText(context, "Conexión restablecida", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.connection_restored, Toast.LENGTH_SHORT).show()
                 onNetworkAvailable()
             }
             wasDisconnected = false
         } else {
             if (!wasDisconnected) {
-                Toast.makeText(context, "Sin conexión", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show()
             }
             wasDisconnected = true
         }

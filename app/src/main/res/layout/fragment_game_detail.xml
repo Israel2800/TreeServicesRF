@@ -84,6 +84,17 @@
                         android:textSize="@dimen/txt_size"
                         tools:text="@string/additional_detail_two" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/ourWork"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:layout_marginTop="@dimen/sixteen"
+                        android:layout_marginBottom="@dimen/general_padding_twelve"
+                        />
+
                     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                         android:id="@+id/ytPlayerView"
                         android:layout_width="match_parent"
@@ -92,6 +103,17 @@
                         android:layout_marginBottom="@dimen/general_padding_twelve"
                         android:layout_gravity="center"
                         android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="@string/location"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_medium"
+                        android:layout_marginTop="@dimen/general_padding_twelve"
+                        android:layout_marginBottom="@dimen/general_padding_twelve"
+                        />
 
                     <fragment
                         android:id="@+id/map"
@@ -102,12 +124,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
-
-
-
-
-
                 </LinearLayout>
             </ScrollView>
 

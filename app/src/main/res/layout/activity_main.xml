@@ -9,66 +9,59 @@
     <FrameLayout
         android:id="@+id/mainFL"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="@dimen/header_main"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
-        <!-- Email TextView positioned at the left-center -->
         <TextView
             android:id="@+id/tvUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#001764"
-            android:textSize="18sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="10dp"
-            android:text="Correo usuario"
+            android:textColor="@color/main_bg"
+            android:textSize="@dimen/txt_size"
+            android:layout_marginStart="@dimen/sixteen"
+            android:layout_marginBottom="@dimen/image_radius"
+            android:text="@string/email_user"
             android:layout_gravity="start|center_vertical" />
 
         <TextView
             android:id="@+id/tvCorreoNoVerificado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="¡Correo no verificado!"
+            android:layout_marginTop="@dimen/two"
+            android:text="@string/email_not_verified"
             android:visibility="gone"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/sixteen"
             android:textColor="@color/design_default_color_error"
-            android:textSize="18sp"/>
+            android:textSize="@dimen/txt_size"/>
 
-        <!-- Logout Button positioned at the right-center -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCerrarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="@dimen/sixteen"
+            android:layout_marginBottom="@dimen/margin_twenty"
             android:backgroundTint="@color/main_bg"
-
-
-            android:text="Cerrar sesión"
-            android:textSize="14sp"
+            android:text="@string/logout"
+            android:textSize="@dimen/btn_size"
             android:textColor="@color/white"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/sixteen"
             android:layout_gravity="end|center_vertical" />
-
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnReenviarVerificacion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="45dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="@dimen/btn_margin_top"
+            android:layout_marginBottom="@dimen/sixteen"
             android:backgroundTint="@color/main_bg"
-            app:cornerRadius="16dp"
+            app:cornerRadius="@dimen/sixteen"
             android:visibility="gone"
             android:textColor="@color/white"
-            android:textSize="14sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Reenviar correo de verificación"
+            android:textSize="@dimen/btn_size"
+            android:layout_marginStart="@dimen/sixteen"
+            android:layout_marginEnd="@dimen/sixteen"
+            android:text="@string/forward_verification_email"
             android:textAllCaps="false"
             android:layout_gravity="center" />
 
@@ -79,7 +72,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="@dimen/header_main"
        />
 
 

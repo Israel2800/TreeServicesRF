@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.amaurypm.videogamesrf.R
-
 import com.amaurypm.videogamesrf.databinding.ActivityMainBinding
 import com.amaurypm.videogamesrf.ui.fragments.GamesListFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -89,9 +88,9 @@ class MainActivity : AppCompatActivity() {
 
             binding.btnReenviarVerificacion.setOnClickListener {
                 user?.sendEmailVerification()?.addOnSuccessListener {
-                    message("El correo de verificación ha sido reenviado")
+                    message(getString(R.string.verification_email_sent))
                 }?.addOnFailureListener {
-                    message("No se pudo enviar el correo")
+                    message(getString(R.string.verification_email_failed))
                 }
             }
         }
@@ -106,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnCerrarSesion.setOnClickListener {
             firebaseAuth.signOut()
             startActivity(Intent(this, LoginActivity::class.java))
-            message("Sesión cerrada exitosamente")
+            message(getString(R.string.session_closed))
             finish()
         }
 
