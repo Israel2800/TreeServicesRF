@@ -21,10 +21,8 @@ class MainViewModel: ViewModel() {
 
     fun refreshData() {
         viewModelScope.launch {
-            // Add your data fetching logic here (e.g., call an API or load data from a repository)
-            // Example:
-            delay(2000L)  // Simulate network request
-            _isReady.value = true  // Assuming data is ready
+            delay(2000L)
+            _isReady.value = true
         }
     }
 }

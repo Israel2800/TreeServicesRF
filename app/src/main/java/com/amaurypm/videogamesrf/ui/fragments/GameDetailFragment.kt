@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,17 +15,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.amaurypm.videogamesrf.R
 import com.amaurypm.videogamesrf.application.VideoGamesRFApp
 import com.amaurypm.videogamesrf.data.TreeServiceRepository
 import com.amaurypm.videogamesrf.data.remote.model.TreeServiceDetailDto
 import com.amaurypm.videogamesrf.databinding.FragmentGameDetailBinding
-import com.amaurypm.videogamesrf.ui.MainViewModel
 import com.amaurypm.videogamesrf.ui.NetworkReceiver
 import com.amaurypm.videogamesrf.utils.Constants
 import com.bumptech.glide.Glide
@@ -82,6 +78,28 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        // Registrar el NetworkReceiver
+        networkReceiver = NetworkReceiver {
+            reloadFragment()
+        }
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        requireContext().registerReceiver(networkReceiver, intentFilter)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Desregistrar el NetworkReceiver para evitar fugas de memoria
+        requireContext().unregisterReceiver(networkReceiver)
+    }
+
+    private fun reloadFragment() {
+        // Recargar datos desde el método de la API
+        fetchGameDetails()
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { args ->
@@ -99,30 +117,6 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
         return binding.root
     }
 
-    /*
-    override fun onStart() {
-        super.onStart()
-        // Register the network receiver
-        networkReceiver = NetworkReceiver {
-            reloadData()
-        }
-        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        requireActivity().registerReceiver(networkReceiver, intentFilter)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        // Unregister the receiver to avoid memory leaks
-        requireActivity().unregisterReceiver(networkReceiver)
-    }
-
-    private fun reloadData() {
-        // Call your ViewModel method to refresh data
-        viewModel.refreshData()
-    }
-
-     */
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repository = (requireActivity().application as VideoGamesRFApp).repository
@@ -133,44 +127,62 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
     }
 
     private fun fetchGameDetails() {
+        binding.pbLoading.visibility = View.VISIBLE
         gameId?.let { id ->
             repository.getTreeServiceDetailApiary(id).enqueue(object : Callback<TreeServiceDetailDto> {
                 override fun onResponse(
                     call: Call<TreeServiceDetailDto>,
                     response: Response<TreeServiceDetailDto>
                 ) {
-                    val detailData = response.body()
-                    detailData?.let { detail ->
-                        binding.apply {
-                            pbLoading.visibility = View.GONE
-                            tvTitle.text = detail.title
-                            Glide.with(requireActivity()).load(detail.image).into(ivImage)
-                            tvLongDesc.text = getString(R.string.description, detail.longDesc)
-                            tvAdditionalDetail1.text = getString(R.string.details, detail.additionalDetail1)
-                            tvAdditionalDetail2.text = getString(R.string.additional, detail.additionalDetail2)
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                tvLongDesc.justificationMode =
-                                    android.graphics.text.LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-                            }
-
-                            val videoId = detail.url_id
-                            if (!videoId.isNullOrEmpty()) {
-                                initializeYouTubePlayer(videoId)
-                            }
-
-                            // Obtener coordenadas de TreeServiceDto y actualizar el mapa
-                            updateMapWithCoordinates(detail.latitude, detail.longitude)
+                    binding.pbLoading.visibility = View.GONE
+                    if (response.isSuccessful) {
+                        val detailData = response.body()
+                        detailData?.let { detail ->
+                            updateUI(detail)
                         }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al cargar los datos. Por favor intenta de nuevo.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
 
                 override fun onFailure(call: Call<TreeServiceDetailDto>, t: Throwable) {
-                    Log.e("GameDetailFragment", "Error fetching game details: ${t.message}")
+                    binding.pbLoading.visibility = View.GONE
+                    /*
+                    Toast.makeText(
+                        requireContext(),
+                        "Error al cargar los datos: ${t.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    */
                 }
             })
         }
     }
+
+    private fun updateUI(detail: TreeServiceDetailDto) {
+        binding.apply {
+            tvTitle.text = detail.title
+            Glide.with(requireActivity()).load(detail.image).into(ivImage)
+            tvLongDesc.text = getString(R.string.description, detail.longDesc)
+            tvAdditionalDetail1.text = getString(R.string.details, detail.additionalDetail1)
+            tvAdditionalDetail2.text = getString(R.string.additional, detail.additionalDetail2)
+
+            detail.latitude?.let { lat ->
+                detail.longitude?.let { lng ->
+                    updateMapWithCoordinates(lat, lng)
+                }
+            }
+
+            if (!detail.url_id.isNullOrEmpty()) {
+                initializeYouTubePlayer(detail.url_id!!)
+            }
+        }
+    }
+
 
     private fun updateMapWithCoordinates(latitude: Double?, longitude: Double?) {
         if (latitude != null && longitude != null) {
@@ -210,20 +222,6 @@ class GameDetailFragment : Fragment(), OnMapReadyCallback, LocationListener {
         map = googleMap
         //createMarker() // Ya no es necesario al estar implementando updateMapWithCoordinates
     }
-
-    /*
-    private fun createMarker() {
-        val coordinate = LatLng(19.322326, -99.184592)
-        val marker = MarkerOptions()
-            .position(coordinate)
-            .title("DGTIC-UNAM")
-            .snippet("Courses and diplomas in ITC")
-            .icon(BitmapDescriptorFactory.fromResource(R.drawable.school))
-
-        map.addMarker(marker)
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, 18f), 4000, null)
-    }
-    */
 
 
     @SuppressLint("MissingPermission")

@@ -246,7 +246,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun reloadData() {
-        // Llamar al método del MainViewModel para refrescar la data
+        // Llamar al método del MainViewModel para refrescar
         viewModel.refreshData()
     }
 
